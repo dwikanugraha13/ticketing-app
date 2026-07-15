@@ -1,0 +1,374 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Unlayered brand button styles.
+ * These are intentionally written OUTSIDE any @layer block so they always
+ * win the cascade over the daisyUI/Tailwind CDN styles used alongside the
+ * Vite build (unlayered CSS beats layered CSS regardless of source order).
+ * This fixes buttons that were rendering invisible/transparent when a
+ * plain bg-* utility was combined with daisyUI's `.btn` class.
+ */
+.btn-brand {
+    background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 45%, #2563eb 100%);
+    color: #fff;
+    border: none;
+    box-shadow: 0 12px 25px -12px rgba(37, 99, 235, 0.55);
+}
+
+.btn-brand:hover {
+    filter: brightness(1.04);
+}
+
+.btn-brand:focus,
+.btn-brand:focus-visible {
+    outline: 2px solid #1e3a8a;
+    outline-offset: 2px;
+}
+
+.btn-light {
+    background-color: #fff;
+    color: #1e3a8a;
+    border: none;
+}
+
+.btn-light:hover {
+    background-color: #f3f4f6;
+}
+
+/*
+ * Same fix as .btn-brand above, applied to the daisyUI danger button.
+ * `.btn-error` was rendering invisible/transparent for the same reason
+ * (unlayered Tailwind v4 utilities losing to daisyUI's layered .btn styles).
+ */
+.btn.btn-error:not(.btn-outline) {
+    background-color: #e11d48;
+    color: #fff;
+    border: none;
+    box-shadow: 0 12px 25px -12px rgba(225, 29, 72, 0.55);
+}
+
+.btn.btn-error:not(.btn-outline):hover {
+    background-color: #be123c;
+}
+
+.btn.btn-error:not(.btn-outline):focus,
+.btn.btn-error:not(.btn-outline):focus-visible {
+    outline: 2px solid #9f1239;
+    outline-offset: 2px;
+}
+
+.btn.btn-error.btn-outline {
+    background-color: transparent;
+    color: #e11d48;
+    border: 1px solid #e11d48;
+}
+
+.btn.btn-error.btn-outline:hover {
+    background-color: #fff1f2;
+}
+
+/*
+ * Professional pill-style search bar (navbar + mobile).
+ * Unlayered so it always beats the daisyUI `.input-bordered` cascade.
+ */
+.search-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 9999px;
+    padding: 0.35rem 0.35rem 0.35rem 1rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.search-pill:hover {
+    border-color: #cbd5e1;
+    background-color: #fff;
+}
+
+.search-pill:focus-within {
+    border-color: #1e3a8a;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.1);
+}
+
+.search-pill__icon {
+    color: #94a3b8;
+    flex-shrink: 0;
+    transition: color 0.15s ease;
+}
+
+.search-pill:focus-within .search-pill__icon {
+    color: #1e3a8a;
+}
+
+.search-pill__input,
+input[type="search"].search-pill__input {
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    font-size: 0.875rem;
+    color: #1e293b;
+    width: 100%;
+    /* Reset the browser's native search-field chrome (WebKit/Blink draw their
+       own rounded box + inner shadow for type="search" inputs), which was
+       showing as a second border nested inside the .search-pill itself. */
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    box-shadow: none !important;
+}
+
+.search-pill__input:focus,
+.search-pill__input:focus-visible,
+input[type="search"].search-pill__input:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* Sembunyikan tombol "x" bawaan browser pada input type="search" agar
+   tidak tumpang tindih dengan tombol hapus (search-pill__clear) kustom. */
+.search-pill__input::-webkit-search-cancel-button,
+.search-pill__input::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.search-pill__input::-ms-clear,
+.search-pill__input::-ms-reveal {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+.search-pill__input::placeholder {
+    color: #94a3b8;
+}
+
+.search-pill__clear {
+    color: #94a3b8;
+    flex-shrink: 0;
+    padding: 0.25rem;
+    border-radius: 9999px;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.search-pill__clear:hover {
+    background-color: #f1f5f9;
+    color: #475569;
+}
+
+.search-pill__submit {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 9999px;
+    background-color: #1e3a8a;
+    color: #fff;
+    border: none;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.search-pill__submit:hover {
+    background-color: #1e40af;
+}
+
+.search-pill__submit:active {
+    transform: scale(0.94);
+}
+
+/* Navbar link micro-interactions */
+.nav-link-underline {
+    position: relative;
+    color: #475569;
+    font-weight: 500;
+    transition: color 0.15s ease;
+}
+
+.nav-link-underline:hover {
+    color: #1e3a8a;
+}
+
+.btn-outline-brand {
+    background-color: transparent;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+}
+
+.btn-outline-brand:hover {
+    background-color: #eff6ff;
+    border-color: #2563eb;
+}
+
+.avatar-ring {
+    transition: box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+.avatar-ring:hover {
+    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.15);
+}
+
+/* Global professional touches */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: linear-gradient(180deg, #f8fbff 0%, #f5f7fb 100%);
+    color: #0f172a;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* Offsets the sticky navbar height so #event-list isn't hidden underneath it
+   when the page auto-scrolls there after a search. */
+#event-list {
+    scroll-margin-top: 6rem;
+}
+
+.text-error {
+    color: #dc2626 !important;
+}
+
+.text-warning {
+    color: #d97706 !important;
+}
+
+.text-success {
+    color: #16a34a !important;
+}
+
+.admin-page-hero {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: radial-gradient(circle at top left, rgba(255,255,255,0.16), transparent 35%),
+                linear-gradient(135deg, #0f172a 0%, #1d4ed8 45%, #2563eb 100%);
+}
+
+.admin-surface {
+    border: 1px solid rgba(191, 219, 254, 0.8);
+    background: linear-gradient(135deg, rgba(255,255,255,0.97), rgba(239,246,255,0.95));
+    box-shadow: 0 26px 65px -32px rgba(37, 99, 235, 0.28);
+    backdrop-filter: blur(18px);
+}
+
+.admin-stat-card {
+    border: 1px solid rgba(191, 219, 254, 0.8);
+    background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(239,246,255,0.95));
+    box-shadow: 0 18px 45px -28px rgba(37, 99, 235, 0.24);
+}
+
+.admin-form-card {
+    border: 1px solid rgba(226, 232, 240, 0.95);
+    background: linear-gradient(135deg, rgba(255,255,255,0.99), rgba(248,250,252,0.96));
+    box-shadow: 0 18px 45px -30px rgba(15, 23, 42, 0.24);
+}
+
+.admin-form-card label {
+    color: #334155;
+}
+
+.admin-form-card .input,
+.admin-form-card .select,
+.admin-form-card .textarea,
+.admin-form-card .file-input {
+    background-color: #fff;
+    color: #0f172a;
+    border-color: #cbd5e1;
+}
+
+.admin-form-card .input:focus,
+.admin-form-card .select:focus,
+.admin-form-card .textarea:focus,
+.admin-form-card .file-input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.admin-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(191, 219, 254, 0.8);
+    background: linear-gradient(135deg, rgba(239, 246, 255, 0.95), rgba(219, 234, 254, 0.9));
+    color: #1d4ed8;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+@keyframes fadeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes floatIn {
+    0% {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.hero-fade-up {
+    animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.card-float-in {
+    animation: floatIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.section-panel {
+    border: 1px solid #e2e8f0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(248,250,252,0.95));
+    box-shadow: 0 20px 45px -25px rgba(15, 23, 42, 0.25);
+}
+
+::selection {
+    background-color: #1e3a8a;
+    color: #fff;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 9999px;
+    border: 2px solid #fff;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #94a3b8;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Required for Alpine.js x-cloak to prevent flash of unstyled content */
+[x-cloak] {
+    display: none !important;
+}
