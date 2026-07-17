@@ -27,6 +27,14 @@ Route::prefix('admin')->name('categories.')->middleware(['auth', 'verified'])->g
     Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('destroy');
 });
 
+// Lokasi routes (admin)
+Route::prefix('admin')->name('admin.lokasis.')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/lokasis', [\App\Http\Controllers\LokasiController::class, 'index'])->name('index');
+    Route::post('/lokasis', [\App\Http\Controllers\LokasiController::class, 'store'])->name('store');
+    Route::put('/lokasis/{id}', [\App\Http\Controllers\LokasiController::class, 'update'])->name('update');
+    Route::delete('/lokasis/{id}', [\App\Http\Controllers\LokasiController::class, 'destroy'])->name('destroy');
+});
+
 // Event management routes (admin)
 Route::prefix('admin')->name('admin.events.')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/events', [EventController::class, 'index'])->name('index');
@@ -39,10 +47,22 @@ Route::prefix('admin')->name('admin.events.')->middleware(['auth', 'verified'])-
     Route::post('/events/{event}/clone', [EventController::class, 'clone'])->name('clone');
 });
 
+// Admin Transactions
+Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/transactions', [\App\Http\Controllers\TransactionController::class, 'adminIndex'])->name('admin.transactions.index');
+});
+
+// Profile routes (admin & user)
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Transaksi / Payment
+    Route::post('/checkout', [\App\Http\Controllers\TransactionController::class, 'checkout'])->name('checkout');
+    Route::get('/transactions', [\App\Http\Controllers\TransactionController::class, 'history'])->name('transactions.history');
+    Route::get('/payment/{order}', [\App\Http\Controllers\TransactionController::class, 'payment'])->name('transactions.payment');
+    Route::post('/payment/{order}/process', [\App\Http\Controllers\TransactionController::class, 'processPayment'])->name('transactions.process');
 });
 
 require __DIR__.'/auth.php';

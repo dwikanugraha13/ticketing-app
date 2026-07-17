@@ -3,13 +3,20 @@
 @section('title', 'Edit Event')
 
 @section('content')
-<div class="admin-page-hero mb-6 rounded-[2rem] p-5 text-slate-100 shadow-[0_20px_60px_-30px_rgba(37,99,235,0.35)]">
-    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+<div class="admin-page-hero mb-8 rounded-3xl p-8 text-white shadow-xl shadow-blue-900/10">
+    <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between relative z-10">
         <div>
-            <p class="text-sm font-semibold uppercase tracking-[0.24em] text-blue-100">Edit Event</p>
-            <h2 class="mt-1 text-xl font-semibold">{{ $event->judul }}</h2>
+            <div class="mb-1 flex items-center gap-1.5 text-xs text-blue-100">
+                <a href="{{ route('admin.events.index') }}" class="transition hover:text-white font-medium">Manajemen Event</a>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
+                <span class="text-white/80 font-medium">Edit Event</span>
+            </div>
+            <h2 class="text-3xl font-bold text-white mt-3">{{ $event->judul }}</h2>
         </div>
-        <a href="{{ route('admin.events.index') }}" class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white/20">← Kembali</a>
+        <a href="{{ route('admin.events.index') }}" class="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-5 py-3 text-sm font-bold text-white backdrop-blur transition hover:bg-white/20 shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+            Kembali
+        </a>
     </div>
 </div>
 
@@ -80,9 +87,15 @@
                         <span class="text-sm font-semibold text-slate-700">Lokasi</span>
                         <span class="text-error">*</span>
                     </label>
-                    <input type="text" name="lokasi" value="{{ old('lokasi', $event->lokasi) }}"
-                           class="input input-bordered w-full @error('lokasi') input-error @enderror">
-                    @error('lokasi') <span class="text-error text-sm">{{ $message }}</span> @enderror
+                    <select name="lokasi_id" class="select select-bordered w-full @error('lokasi_id') select-error @enderror">
+                        <option value="">-- Pilih Lokasi --</option>
+                        @foreach ($lokasis as $lokasi)
+                            <option value="{{ $lokasi->id }}" {{ old('lokasi_id', $event->lokasi_id) == $lokasi->id ? 'selected' : '' }}>
+                                {{ $lokasi->nama_lokasi }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('lokasi_id') <span class="text-error text-sm">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="space-y-2">

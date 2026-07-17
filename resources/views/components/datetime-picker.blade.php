@@ -13,30 +13,30 @@
     <input type="hidden" name="{{ $name }}" class="dtp-hidden-input" value="{{ $value }}">
 
     <button type="button"
-            class="dtp-trigger input input-bordered w-full flex items-center justify-between gap-2 text-left {{ $error ? 'input-error' : '' }} {{ $readonly ? 'opacity-70 cursor-not-allowed bg-gray-50' : '' }}"
+            class="dtp-trigger input input-bordered w-full flex items-center justify-between gap-2 text-left {{ $error ? 'input-error' : '' }} {{ $readonly ? 'opacity-70 cursor-not-allowed bg-slate-50' : '' }}"
             {{ $readonly ? 'disabled' : '' }}>
         <span class="flex items-center gap-2 min-w-0">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
-            <span class="dtp-display truncate text-gray-400">Pilih tanggal &amp; waktu</span>
+            <span class="dtp-display truncate text-slate-500">Pilih tanggal &amp; waktu</span>
         </span>
         @unless ($readonly)
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
             </svg>
         @endunless
     </button>
 
     @unless ($readonly)
-        <div class="dtp-panel hidden absolute z-30 mt-2 w-[300px] bg-white rounded-2xl shadow-xl border border-gray-100 p-4">
+        <div class="dtp-panel hidden absolute z-30 mt-2 w-[300px] bg-white rounded-2xl shadow-xl border border-slate-200 p-4">
             <!-- Calendar header -->
             <div class="flex items-center justify-between mb-3">
-                <button type="button" class="dtp-prev w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-500 transition-colors">
+                <button type="button" class="dtp-prev w-8 h-8 rounded-lg hover:bg-slate-100 flex items-center justify-center text-slate-600 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
                 </button>
-                <span class="dtp-month-label font-semibold text-sm text-gray-800"></span>
-                <button type="button" class="dtp-next w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-500 transition-colors">
+                <span class="dtp-month-label font-semibold text-sm text-slate-900"></span>
+                <button type="button" class="dtp-next w-8 h-8 rounded-lg hover:bg-slate-100 flex items-center justify-center text-slate-600 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
                 </button>
             </div>
@@ -48,16 +48,16 @@
             <div class="dtp-days grid grid-cols-7 gap-1 mb-3"></div>
 
             <!-- Time -->
-            <div class="border-t border-gray-100 pt-3 mb-3">
-                <label class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5 flex items-center gap-1.5">
+            <div class="border-t border-slate-200 pt-3 mb-3">
+                <label class="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5 flex items-center gap-1.5">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     Waktu
                 </label>
                 <div class="flex items-center gap-2">
                     <select class="dtp-hour select select-bordered select-sm flex-1"></select>
-                    <span class="text-gray-400 font-semibold">:</span>
+                    <span class="text-slate-500 font-semibold">:</span>
                     <select class="dtp-minute select select-bordered select-sm flex-1"></select>
-                    <span class="text-xs text-gray-400">WIB</span>
+                    <span class="text-xs text-slate-500">WIB</span>
                 </div>
             </div>
 
@@ -104,8 +104,8 @@
                     const val = parseValue(root.dataset.value);
                     if (val && display) {
                         display.textContent = formatDisplay(val);
-                        display.classList.remove('text-gray-400');
-                        display.classList.add('text-gray-700');
+                        display.classList.remove('text-slate-500');
+                        display.classList.add('text-slate-800');
                     }
                     return;
                 }
@@ -122,7 +122,7 @@
                 let selected = parseValue(root.dataset.value);
                 let viewDate = selected ? new Date(selected) : new Date();
 
-                weekdayRow.innerHTML = DAYS_SHORT.map(d => `<span class="text-[11px] font-semibold text-gray-400">${d}</span>`).join('');
+                weekdayRow.innerHTML = DAYS_SHORT.map(d => `<span class="text-[11px] font-semibold text-slate-500">${d}</span>`).join('');
                 hourSelect.innerHTML = Array.from({ length: 24 }, (_, i) => `<option value="${i}">${pad(i)}</option>`).join('');
                 minuteSelect.innerHTML = Array.from({ length: 60 }, (_, i) => `<option value="${i}">${pad(i)}</option>`).join('');
 
@@ -136,13 +136,13 @@
                     if (selected) {
                         hiddenInput.value = formatHidden(selected);
                         display.textContent = formatDisplay(selected);
-                        display.classList.remove('text-gray-400');
-                        display.classList.add('text-gray-700');
+                        display.classList.remove('text-slate-500');
+                        display.classList.add('text-slate-800');
                     } else {
                         hiddenInput.value = '';
                         display.textContent = 'Pilih tanggal & waktu';
-                        display.classList.add('text-gray-400');
-                        display.classList.remove('text-gray-700');
+                        display.classList.add('text-slate-500');
+                        display.classList.remove('text-slate-800');
                     }
                 }
 
@@ -176,11 +176,11 @@
                         if (isSelected) {
                             cls += 'bg-blue-900 text-white font-semibold';
                         } else if (!c.current) {
-                            cls += 'text-gray-300 hover:bg-gray-50';
+                            cls += 'text-slate-400 hover:bg-slate-50';
                         } else if (isToday) {
-                            cls += 'text-gray-700 ring-1 ring-blue-200 font-semibold hover:bg-blue-50';
+                            cls += 'text-slate-800 ring-1 ring-blue-200 font-semibold hover:bg-blue-50';
                         } else {
-                            cls += 'text-gray-700 hover:bg-blue-50';
+                            cls += 'text-slate-800 hover:bg-blue-50';
                         }
                         return `<button type="button" class="${cls}" data-y="${c.dateObj.getFullYear()}" data-m="${c.dateObj.getMonth()}" data-d="${c.dateObj.getDate()}">${c.day}</button>`;
                     }).join('');

@@ -11,6 +11,7 @@ class Order extends Model
         'event_id',
         'order_date',
         'total_harga',
+        'status',
     ];
 
     public function user()
@@ -25,7 +26,7 @@ class Order extends Model
 
     public function events()
     {
-        return $this->belongsTo(Event::class);
+        return $this->belongsTo(Event::class, 'event_id');
     }
 
     public function detailOrders()

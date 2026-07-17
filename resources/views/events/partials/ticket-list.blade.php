@@ -95,10 +95,16 @@
                     </div>
                 </div>
             </template>
-            <button type="button" @click="checkout()" :disabled="!selected"
-                    class="btn btn-brand w-full rounded-full px-4 py-3 text-sm font-semibold transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40">
-                <span x-text="selected ? 'Lanjutkan Pembayaran' : 'Pilih tiket terlebih dahulu'"></span>
-            </button>
+            <form action="{{ route('checkout') }}" method="POST">
+                @csrf
+                <input type="hidden" name="event_id" value="{{ $event->id }}">
+                <input type="hidden" name="tiket_id" :value="selected?.id">
+                <input type="hidden" name="qty" :value="qty">
+                <button type="submit" :disabled="!selected"
+                        class="btn btn-brand w-full rounded-full px-4 py-3 text-sm font-semibold transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40">
+                    <span x-text="selected ? 'Lanjutkan Pembayaran' : 'Pilih tiket terlebih dahulu'"></span>
+                </button>
+            </form>
         </div>
     @else
         <div class="py-8 text-center">

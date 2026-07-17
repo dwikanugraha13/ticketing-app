@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EventFormRequest;
 use App\Models\Event;
 use App\Models\Kategori;
+use App\Models\Lokasi;
 use App\Models\Tiket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -56,7 +57,7 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Event::with(['kategori', 'tikets']);
+        $query = Event::with(['kategori', 'tikets', 'lokasi']);
 
         if ($request->filled('kategori_id')) {
             $query->where('kategori_id', $request->kategori_id);
@@ -66,7 +67,9 @@ class EventController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('judul', 'like', "%{$search}%")
-                    ->orWhere('lokasi', 'like', "%{$search}%");
+                    ->orWhereHas('lokasi', function($q) use ($search) {
+                        $q->where('nama_lokasi', 'like', "%{$search}%");
+                    });
             });
         }
 
@@ -88,9 +91,11 @@ class EventController extends Controller
     public function create()
     {
         $categories = Kategori::all();
+        $lokasis = Lokasi::where('aktif', 'Y')->get();
 
         return view('pages.admin.events.create', [
             'categories' => $categories,
+            'lokasis' => $lokasis,
         ]);
     }
 
@@ -113,7 +118,7 @@ class EventController extends Controller
                 'kategori_id' => $validated['kategori_id'],
                 'judul' => $validated['judul'],
                 'deskripsi' => $validated['deskripsi'],
-                'lokasi' => $validated['lokasi'],
+                'lokasi_id' => $validated['lokasi_id'],
                 'gambar' => $gambar,
                 'tanggal_waktu' => $validated['tanggal_waktu'],
             ]);
@@ -138,11 +143,13 @@ class EventController extends Controller
     {
         $event->load('tikets.detailOrders');
         $categories = Kategori::all();
+        $lokasis = Lokasi::where('aktif', 'Y')->get();
         $hasSales = $event->hasSales();
 
         return view('pages.admin.events.edit', [
             'event' => $event,
             'categories' => $categories,
+            'lokasis' => $lokasis,
             'hasSales' => $hasSales,
         ]);
     }
@@ -201,7 +208,7 @@ class EventController extends Controller
                 'kategori_id' => $validated['kategori_id'],
                 'judul' => $validated['judul'],
                 'deskripsi' => $validated['deskripsi'],
-                'lokasi' => $validated['lokasi'],
+                'lokasi_id' => $validated['lokasi_id'],
                 'gambar' => $gambar,
                 'tanggal_waktu' => $hasSales ? $event->tanggal_waktu : $validated['tanggal_waktu'],
             ]);
@@ -308,7 +315,7 @@ class EventController extends Controller
                 'kategori_id' => $event->kategori_id,
                 'judul' => $event->judul . ' (Copy)',
                 'deskripsi' => $event->deskripsi,
-                'lokasi' => $event->lokasi,
+                'lokasi_id' => $event->lokasi_id,
                 'gambar' => $event->gambar,
                 'tanggal_waktu' => now()->addDay(),
             ]);
@@ -333,9 +340,9 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        $event->load(['kategori', 'tikets']);
+        $event->load(['kategori', 'tikets', 'lokasi']);
 
-        $relatedEvents = Event::with(['kategori', 'tikets'])
+        $relatedEvents = Event::with(['kategori', 'tikets', 'lokasi'])
             ->where('kategori_id', $event->kategori_id)
             ->where('id', '!=', $event->id)
             ->upcoming()
